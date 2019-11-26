@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- http://logging.apache.org/log4j/2.x/manual/configuration.html -->
+<!-- prd config -->
+<Configuration monitorInterval="60">
+
+    <Properties>
+        <property name="stdoutPattern">%d{HH:mm:ss.SSS} |-%5level %logger{20} [%t] |%X{ip} - %msg%n</property>
+        <property name="filePattern">%d{yyyy-MM-dd HH:mm:ss.SSS} |-%5level %logger{20} [%t] %X{ip} - %msg%n</property>
+        <property name="patternNoTime">%msg%n</property>
+        <property name="logDir">./logs</property>
+        <property name="logLevel">info</property>
+    </Properties>
+
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>${stdoutPattern}</pattern>
+            </PatternLayout>
+        </Console>
+        <RollingFile name="logfile" fileName="${logDir}/server.log" filePattern="${logDir}/server-%d{yyyyMMddHH}.log.gz">
+            <PatternLayout>
+                <pattern>${filePattern}</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24" modulate="true" />
+<!--                <SizeBasedTriggeringPolicy size="2048 MB" /> -->
+            </Policies>
+            <DefaultRolloverStrategy max="30" />
+        </RollingFile>
+    </Appenders>
+    
+    <Loggers>
+        <root level="${logLevel}">
+            <appender-ref ref="stdout" />
+            <appender-ref ref="logfile" />
+        </root>
+    </Loggers>
+
+</Configuration>
