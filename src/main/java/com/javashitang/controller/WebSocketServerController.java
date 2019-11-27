@@ -12,7 +12,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 
 @Component
-@ServerEndpoint("forshow/websocket/{sid}")
+@ServerEndpoint("/forshow/websocket/{sid}")
 public class WebSocketServerController {
 
     // 收到消息调用的方法

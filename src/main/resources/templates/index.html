@@ -1,58 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Testing websockets</title>
+    <title>Testing websockets</title>
 </head>
 <body>
-  <div>
-	<textarea rows="3" cols="20" id="content"></textarea>
-	<br>
-    <input type="submit" value="Start" onclick="start()" />
-  </div>
-  <div id="messages"></div>
-  <script type="text/javascript">
-    var webSocket = 
-      new WebSocket('ws://localhost:8080/websocket');
+<div>
+    <input type="text" id="sid" placeholder="请输入房间号"/><br>
+    <input type="text" id="nickname" placeholder="请输入昵称"/><br>
+    <input type="submit" value="连接" onclick="connect()" /><br>
+    <textarea rows="3" cols="20" id="content"></textarea><br>
+    <input type="submit" value="发送" onclick="start()" />
+    <br>
+</div>
+<div id="messages"></div>
+<script type="text/javascript">
 
-    webSocket.onerror = function(event) {
-      onError(event)
-    };
-
-    webSocket.onopen = function(event) {
-      onOpen(event)
-    };
-
-    webSocket.onmessage = function(event) {
-      onMessage(event)
-    };
-	
-	webSocket.onclose = function(event) {
-      onClose(event)
-    };
-	
+    var webSocket = null;
 
     function onMessage(event) {
-      document.getElementById('messages').innerHTML 
-        += '<br />' + event.data;
+        document.getElementById('messages').innerHTML
+            += '<br />' + event.data;
     }
 
     function onOpen(event) {
-      document.getElementById('messages').innerHTML 
-        = 'Connection established';
+        document.getElementById('messages').innerHTML
+            = 'Connection established';
     }
 
     function onError(event) {
-      alert(event);
+        alert("发生错误");
     }
-	
-	function onClose(event) {
-      alert(event);
+
+    function onClose(event) {
+        alert("连接关闭");
+    }
+
+    function connect() {
+        var sid = document.getElementById('sid').value;
+        var nickname = document.getElementById('nickname').value;
+        if (url == '' || nickname == '') {
+            alert("房间号和用户名不能为空");
+            return;
+        }
+        var serverHot =  window.location.host;
+        var url = 'ws://' + serverHot + '/groupChat/' + sid + '/' + nickname;
+        webSocket = new WebSocket(url);
+        webSocket.onerror = function(event) {
+            onError(event)
+        };
+
+        webSocket.onopen = function(event) {
+            onOpen(event)
+        };
+
+        webSocket.onmessage = function(event) {
+            onMessage(event)
+        };
+
+        webSocket.onclose = function(event) {
+            onClose(event)
+        };
     }
 
     function start() {
-	  var text = document.getElementById('content').value;
-      webSocket.send(text);
+        var text = document.getElementById('content').value;
+        webSocket.send(text);
     }
-  </script>
+
+</script>
 </body>
 </html>
