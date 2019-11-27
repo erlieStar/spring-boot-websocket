@@ -1,7 +1,0 @@
-spring:
-  profiles:
-    active: dev
-
-server:
-  servlet:
-    context-path: /wx
