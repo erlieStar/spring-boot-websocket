@@ -20,9 +20,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @ServerEndpoint("/groupChat/{sid}/{username}")
 public class GroupChatController {
 
+    // 保存 组id->组成员 的映射关系
     private static ConcurrentHashMap<String, List<Session>> groupMemberInfoMap = new ConcurrentHashMap<>();
 
-    // 收到消息调用的方法
+    // 收到消息调用的方法，群成员发送消息
     @OnMessage
     public void onMessage(@PathParam("sid") String sid,
                           @PathParam("username") String username, String message) {
@@ -38,7 +39,7 @@ public class GroupChatController {
         });
     }
 
-    // 建立连接调用的方法
+    // 建立连接调用的方法，群成员加入
     @OnOpen
     public void onOpen(Session session, @PathParam("sid") String sid) {
         List<Session> sessionList = groupMemberInfoMap.get(sid);
@@ -51,7 +52,7 @@ public class GroupChatController {
         log.info("sid: {}, sessionList size: {}", sid, sessionList.size());
     }
 
-    // 关闭连接调用的方法
+    // 关闭连接调用的方法，群成员退出
     @OnClose
     public void onClose(Session session, @PathParam("sid") String sid) {
         List<Session> sessionList = groupMemberInfoMap.get(sid);
