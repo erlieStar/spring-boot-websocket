@@ -65,6 +65,7 @@
     function start() {
         var text = document.getElementById('content').value;
         webSocket.send(text);
+        document.getElementById('content').value = '';
     }
 
 </script>

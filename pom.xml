@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.st</groupId>
+	<groupId>com.javashitang</groupId>
 	<artifactId>spring-boot-websocket</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
