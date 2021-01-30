@@ -45,18 +45,22 @@
         var serverHot =  window.location.host;
         var url = 'ws://' + serverHot + '/groupChat/' + sid + '/' + nickname;
         webSocket = new WebSocket(url);
+        // 发生错误
         webSocket.onerror = function(event) {
             onError(event)
         };
 
+        // 连接成功
         webSocket.onopen = function(event) {
             onOpen(event)
         };
 
+        // 收到消息
         webSocket.onmessage = function(event) {
             onMessage(event)
         };
 
+        // 关闭连接
         webSocket.onclose = function(event) {
             onClose(event)
         };
